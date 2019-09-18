@@ -38,13 +38,13 @@ export default {
   ** Nuxt.js dev-modules
   */
   buildModules: [
-    '@nuxtjs/vuetify',
+    '@nuxtjs/vuetify'
   ],
   /*
   ** Nuxt.js modules
   */
   modules: [
-  '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv'
   ],
   /*
   ** vuetify module configuration
