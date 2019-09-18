@@ -1,0 +1,22 @@
+{
+  "name": "nuxt-vuetify-firebase",
+  "version": "1.0.0",
+  "description": "test PJ using nuxt, vuetify and firebase",
+  "author": "toku",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "dependencies": {
+    "@nuxtjs/dotenv": "^1.4.1",
+    "firebase": "^6.6.1",
+    "nuxt": "^2.0.0",
+    "vuex-persistedstate": "^2.5.4"
+  },
+  "devDependencies": {
+    "@nuxtjs/vuetify": "^1.0.0"
+  }
+}
