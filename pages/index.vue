@@ -48,6 +48,10 @@
             to="/inspire">Continue</v-btn>
         </v-card-actions>
       </v-card>
+<div id="mypage">
+  <p><textarea v-model="note_content"></textarea></p>
+  <p><button @click="saveContent(note_content)">ノートを保存する</button></p>
+</div>
     </v-flex>
   </v-layout>
 </template>
@@ -55,11 +59,40 @@
 <script>
 import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
+import firebase from '~/plugins/firebase'
+import'firebase/database'
 
 export default {
+  name: 'mypage',
   components: {
     Logo,
     VuetifyLogo
+  },
+  data() {
+    return {
+      user: '',
+      note_content: 'hello',
+      notes:[]
+    }
+  },
+  created: function() {
+    this.user = this.$store.state.Account.user;
+    console.log('user:' + JSON.stringify(this.user));
+
+    firebase.database().ref('notes/' + this.user.uid).once('value')
+      .then(function(snapshot){
+        if (snapshot.val()) {
+          this.notes = snapshot.val();
+        }
+      })
+  },
+  methods: {
+    saveContent: function(value) {
+      console.log('user:' + this.user);
+      // 新しいテキストのためのキーを取得
+      let newNoteKey = firebase.database().ref().child('notes').push().key;
+      firebase.database().ref('notes/' + this.user.uid　+ '/' + newNoteKey).set({content:value});
+    }
   }
 }
 </script>

@@ -63,6 +63,12 @@ export default {
     doLogin() {
       firebase.auth().signInWithEmailAndPassword(this.email, this.password)
         .then(user => {
+          this.$store.commit('Account/setUser', {
+            uid: user.uid,
+            email: user.email,
+            username: user.displayName,
+            userImage: user.photoURL,
+          });
           this.$router.push("/")
         }).catch((error) => {
           alert(error)

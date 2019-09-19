@@ -1,15 +1,18 @@
 export const state = () => ({
-  user: null,
+  user: localStorage.getItem('tokutestLocalStrage') === null ? null : JSON.parse(localStorage.getItem('tokutestLocalStrage')).Account.user,
   info: null,
 })
 
-export const mutations = {
+ export const mutations = {
   setUser (state, payload) {
     if (payload) {
       state.user = payload
     } else {
       state.user = null
     }
+  },
+  clearUser (state) {
+    state.user = null
   },
   setInfo (state, payload) {
     if (payload) {
@@ -24,6 +27,9 @@ export const actions = {
   setUser ({ commit }, payload) {
     commit('setUser', payload)
   },
+  crearUser ({ commit }) {
+    commit('clearUser')
+  },
   setInfo ({ commit }, payload) {
     commit('setInfo', payload)
   },
@@ -37,3 +43,4 @@ export const getters = {
     return state.info
   },
 }
+
