@@ -62,15 +62,7 @@ export default {
   methods: {
     async doLogin() {
       let store = this.$store
-      await firebaseAPI.login(this.email, this.password).then(async (user) => {
-        console.log('login page user ' + JSON.stringify(user))
-        /*await store.commit('Account/setUser', {
-          uid: user.uid,
-          email: user.email,
-          username: user.displayName,
-          userImage: user.photoURL,
-        })*/
-        console.log('login page store user ' + JSON.stringify(store.state.Account.user))
+      await firebaseAPI.login(this.email, this.password).then((user) => {
         this.$router.push("/")
       }).catch(err => alert(err))
     },
