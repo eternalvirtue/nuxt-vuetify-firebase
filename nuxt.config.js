@@ -79,7 +79,7 @@ export default {
     }
   },
   router: {
-    base: '/test/firebase',
+    // base: '/test/firebase',
     middleware: 'auth'
   }
 }
