@@ -1,6 +1,6 @@
 import firebaseAPI from '~/plugins/firebaseAPI'
 
-export default function ({ store, route, redirect }) {
+export default async function ({ store, route, redirect }) {
   if (route.name === "login" || route.name === "createAccount") {
     if (store.state.Account.user !== null) {
       redirect('/')
@@ -14,7 +14,7 @@ export default function ({ store, route, redirect }) {
       console.log('store2.state.Account.user = ' + JSON.stringify(store.state.Account.user))
     }
     if (store.state.Account.user === null ) {
-      firebaseAPI.auth().then(user => {
+      await firebaseAPI.auth().then(user => {
         console.log('state2 auth user ' + JSON.stringify(user))
         if (!user) {
           redirect('/login');
