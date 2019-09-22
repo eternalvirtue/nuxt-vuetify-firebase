@@ -51,6 +51,8 @@
 <div id="mypage">
   <p><textarea v-model="note_content"></textarea></p>
   <p><button @click="saveContent(note_content)">ノートを保存する</button></p>
+  <div v-for="(item, i) in notes" v-bind:key='i' class='column is-2'>{{ item.data().content }}
+  </div>
 </div>
     </v-flex>
   </v-layout>
@@ -60,7 +62,11 @@
 import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
 import firebase from '~/plugins/firebase'
-import'firebase/database'
+import 'firebase/firestore'
+
+
+const firestore = firebase.firestore()
+const notesRef = firestore.collection('/notes')
 
 export default {
   name: 'mypage',
@@ -72,26 +78,26 @@ export default {
     return {
       user: '',
       note_content: 'hello',
-      notes:[]
+      notes: []
     }
   },
   created: function() {
     this.user = this.$store.state.Account.user;
-    console.log('user:' + JSON.stringify(this.user));
-
-    firebase.database().ref('notes/' + this.user.uid).once('value')
-      .then(function(snapshot){
-        if (snapshot.val()) {
-          this.notes = snapshot.val();
-        }
-      })
+    console.log('index page user = ' + this.user)
+    firestore.collection("notes").doc(this.user.uid).collection('entry').get()
+      .then(querySnapshot => {
+        this.notes = querySnapshot.docs;
+      }).catch(error => {
+          console.log("Error getting documents: ", error);
+      });
   },
   methods: {
     saveContent: function(value) {
-      console.log('user:' + this.user);
-      // 新しいテキストのためのキーを取得
-      let newNoteKey = firebase.database().ref().child('notes').push().key;
-      firebase.database().ref('notes/' + this.user.uid　+ '/' + newNoteKey).set({content:value});
+      let newEntry = {
+        content:value,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+      }
+      let newData = firestore.collection("notes").doc(this.user.uid).collection('entry').add(newEntry);
     }
   }
 }

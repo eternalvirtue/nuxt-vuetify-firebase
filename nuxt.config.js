@@ -32,7 +32,8 @@ export default {
   */
   plugins: [
     '@/plugins/firebase.js',
-    { src: "~plugins/persistedstate.js", ssr: false }
+    '@/plugins/firebaseAPI.js',
+    { src: "@plugins/persistedstate.js", ssr: false }
   ],
   /*
   ** Nuxt.js dev-modules
@@ -78,7 +79,7 @@ export default {
     }
   },
   router: {
-    // base: '/test/firebase',
+    base: '/test/firebase',
     middleware: 'auth'
   }
 }

@@ -22,7 +22,7 @@ export const state = () => ({
     }
   },
 }
-
+/*
 export const actions = {
   setUser ({ commit }, payload) {
     commit('setUser', payload)
@@ -42,5 +42,5 @@ export const getters = {
   info: state => {
     return state.info
   },
-}
+}*/
 
