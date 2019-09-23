@@ -60,11 +60,18 @@ export default {
     }
   },
   methods: {
-    async doLogin() {
+    doLogin() {
       let store = this.$store
-      await firebaseAPI.login(this.email, this.password).then((user) => {
-        this.$router.push("/")
-      }).catch(err => alert(err))
+      firebaseAPI.login(this.email, this.password).then((user) => {
+        /*store.dispatch('Account/setUser', {
+          uid: user.uid,
+          email: user.email,
+          username: user.displayName,
+          userImage: user.photoURL,
+        }).then(() => {
+          console.log('login page user ' + JSON.stringify(store.state.Account.user))*/
+          this.$router.push("/")})
+      //}).catch(err => alert(err))
     },
     gotoSignup() {
       this.$router.push("/createAccount")
