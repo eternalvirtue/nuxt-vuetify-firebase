@@ -61,12 +61,8 @@
 <script>
 import Logo from '~/components/Logo.vue'
 import VuetifyLogo from '~/components/VuetifyLogo.vue'
-import firebase from '~/plugins/firebase'
-import 'firebase/firestore'
-
-
-const firestore = firebase.firestore()
-const notesRef = firestore.collection('/notes')
+import firebaseAPI from '~/plugins/firebaseAPI'
+import logUtil from '~/plugins/logUtil'
 
 export default {
   name: 'mypage',
@@ -83,22 +79,33 @@ export default {
   },
   created: function() {
     this.user = this.$store.state.Account.user;
-    console.log('index page user = ' + this.user)
-    firestore.collection("notes").doc(this.user.uid).collection('entry').get()
-      .then(querySnapshot => {
-        this.notes = querySnapshot.docs;
-      }).catch(error => {
-          console.log("Error getting documents: ", error);
-      });
+    console.log('index page user = ', logUtil.stringify(this.user))
+    firebaseAPI.fetchNotes(this.user.uid)
+    .then(querySnapshot => {
+      this.notes = querySnapshot.docs
+    }).catch(err => {
+      console.log("Error getting documents: ", err)
+    })
   },
   methods: {
     saveContent: function(value) {
       let newEntry = {
-        content:value,
-        timestamp: firebase.firestore.FieldValue.serverTimestamp()
+        content:value
       }
-      let newData = firestore.collection("notes").doc(this.user.uid).collection('entry').add(newEntry);
-    }
+      firebaseAPI.addNote(newEntry, this.user.uid)
+      .then(newData => {
+        console.log('newdata = ', logUtil.stringify(newData))
+      }).catch(err => {
+        console.log('addNote failed, err = ', err)
+      })
+      
+      firebaseAPI.fetchNotes(this.user.uid)
+      .then(querySnapshot => {
+        this.notes = querySnapshot.docs
+      }).catch(err => {
+        console.log("Error getting documents: ", err)
+      })
+    },
   }
 }
 </script>
