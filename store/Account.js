@@ -23,4 +23,25 @@ export const state = () => ({
   },
 }
 
+export const actions = {
+  setUser ({ commit }, payload) {
+    commit('setUser', payload)
+  },
+  crearUser ({ commit }) {
+    commit('clearUser')
+  },
+  setInfo ({ commit }, payload) {
+    commit('setInfo', payload)
+  },
+}
+
+export const getters = {
+  user: state => {
+    return state.user
+  },
+  info: state => {
+    return state.info
+  },
+}
+
 
