@@ -6,11 +6,6 @@
             <v-toolbar color="blue darken-3" class="white--text">
               <v-toolbar-title>ログイン</v-toolbar-title>
             </v-toolbar>
-            <p class="errMessage" v-if="loginError">
-              <v-alert type="error">
-                {{loginError}}
-              </v-alert>
-            </p>
             <v-card-text>
               <v-form>
                 <v-text-field
@@ -36,30 +31,9 @@
                 v-on:click="gotoSignup"
               >SIGNUP</v-btn>
               <v-spacer></v-spacer>
-              <v-btn
-                color="blue darken-3 primary"
-                outlined 
+              <v-btn color="blue darken-3 primary"  outlined 
                 v-on:click="doLogin"
               >LOGIN</v-btn>
-              <v-dialog
-                v-model="dialog"
-                persistent
-                width="300"
-              >
-                <v-card
-                  color="primary"
-                  dark
-                >
-                  <v-card-text>
-                    リクエスト処理中です。
-                    <v-progress-linear
-                      indeterminate
-                      color="white"
-                      class="mb-0"
-                    ></v-progress-linear>
-                  </v-card-text>
-                </v-card>
-              </v-dialog>
             </v-card-actions>
             <hr>
             <v-spacer></v-spacer>
@@ -83,22 +57,10 @@ export default {
       email: '',
       password: '',
       show_password: false,
-      loginError: '',
-      dialog: false
     }
-  },
-  watch: {
-    dialog (val) {
-      if (!val) return
-      // ボタン押した時に出るダイアログの最大時間4秒。
-      // 基本的にFirebaseの処理が早くてダイアログ出る前にレスポンスが返ってきているので、
-      // このダイアログは目にする前に終了してしまっているが、念の為
-      setTimeout(() => (this.dialog = false), 4000)
-    },
   },
   methods: {
     doLogin() {
-      this.dialog = true
       let store = this.$store
       firebaseAPI.login(this.email, this.password).then((user) => {
         /*store.dispatch('Account/setUser', {
@@ -108,24 +70,8 @@ export default {
           userImage: user.photoURL,
         }).then(() => {
           console.log('login page user ' + JSON.stringify(store.state.Account.user))*/
-          this.$router.push("/")
-      }).catch(err => {
-        console.log('login Failed ', err)
-        let errorCode = err.code;
-        let errorMessage = err.message;
-        if (errorCode === 'auth/invalid-email') {
-          this.loginError = '不正なメールアドレスです。'
-        } else if (errorCode === 'auth/user-disabled') {
-          this.loginError = 'アカウント削除済みです。必要に応じて再登録してください。'
-        } else if (errorCode === 'auth/user-not-found') {
-          this.loginError = 'そのメールアドレスは未登録です。'
-        } else if (errorCode === 'auth/wrong-password') {
-          this.loginError = 'パスワードが間違っています。'
-        } else {
-          this.loginError = '不明なエラーです。' + errorCode + ' : ' + errorMessage
-        }
-      })
-      this.dialog = false
+          this.$router.push("/")})
+      //}).catch(err => alert(err))
     },
     gotoSignup() {
       this.$router.push("/createAccount")

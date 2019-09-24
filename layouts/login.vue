@@ -3,7 +3,7 @@
     <v-app-bar color="blue darken-3" class="white--text"
       app
     >
-      <nuxt-link to="/"　class="white--text">SERVESYNC, LLC.</nuxt-link>
+      <nuxt-link to="/"　class="white--text">テストプロジェクト</nuxt-link>
       <v-spacer />
       <nuxt-link to="/help"　class="white--text">ヘルプ</nuxt-link>
     </v-app-bar>
@@ -13,7 +13,7 @@
     <v-footer
       app
     >
-      <span>&copy; 2019 SERVESYNC, LLC.</span>
+      <span>&copy; 2019</span>
     </v-footer>
   </v-app>
 </template>

@@ -29,7 +29,6 @@
       fixed
       app
     >
-      <nuxt-link to="/">SERVESYNC, LLC.</nuxt-link>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-btn
         icon
@@ -85,7 +84,7 @@
       :fixed="fixed"
       app
     >
-      <span>&copy; 2019 SERVESYNC, LLC.</span>
+      <span>&copy; 2019</span>
     </v-footer>
   </v-app>
 </template>
