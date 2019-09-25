@@ -135,11 +135,10 @@ export default {
           .then(createdUser => {
             console.log('UserData Create Succeed ', createdUser)
             this.succeedInfo = 'アカウントの作成が終了しました。'
-            // アカウント作成時点でログインした状態になっているので、ログアウトしておく
-            firebaseAPI.logout()
           }).catch(err => {
             console.log('UserData Create  ', err)
             this.signUpError = '認証情報作成に成功しましたが、ユーザ情報作成に失敗しました。管理者にお問い合わせください。'
+          }).finally(() => {
             // アカウント作成時点でログインした状態になっているので、ログアウトしておく
             firebaseAPI.logout()
           })
@@ -158,9 +157,11 @@ export default {
           } else {
             this.signUpError = '不明なエラーです。' + errorCode + ' : ' + errorMessage
           }
-        })
+        }).finally(() => {
+          // timeoutをつけないと処理が早すぎてブラウザの処理が追いつかない？
+          setTimeout(() => (this.dialog = false), 100)
+        }) 
       }
-      this.dialog = false
     }
   }
 }

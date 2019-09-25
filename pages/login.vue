@@ -124,8 +124,10 @@ export default {
         } else {
           this.loginError = '不明なエラーです。' + errorCode + ' : ' + errorMessage
         }
+      }).finally(() => {
+        // timeoutをつけないと処理が早すぎてブラウザの処理が追いつかない？
+        setTimeout(() => (this.dialog = false), 100)
       })
-      this.dialog = false
     },
     gotoSignup() {
       this.$router.push("/createAccount")
