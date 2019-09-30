@@ -1,5 +1,5 @@
 const fs = require('fs')
-fs.writeFileSync('./.env44', `LOGMODE=DEV\n
+fs.writeFileSync('./.env', `LOGMODE=DEV\n
 API_KEY=${process.env.API_KEY}\n
 AUTH_DOMAIN=${process.env.AUTH_DOMAIN}\n
 DATABASE_URL=${process.env.DATABASE_URL}\n
