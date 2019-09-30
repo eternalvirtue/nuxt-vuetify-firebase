@@ -101,14 +101,16 @@ export default {
       this.dialog = true
       this.loginError = ''
       firebaseAPI.login(this.email, this.password).then((user) => {
-        /*store.dispatch('Account/setUser', {
-          uid: user.uid,
-          email: user.email,
-          username: user.displayName,
-          userImage: user.photoURL,
+        console.log('login page user id ' + JSON.stringify(user))
+        this.$store.dispatch('Account/setUser', {
+          uid: user.user.uid,
+          email: user.user.email,
+          username: user.user.displayName,
+          userImage: user.user.photoURL,
         }).then(() => {
-          console.log('login page user ' + JSON.stringify(store.state.Account.user))*/
+          console.log('login page user ' + JSON.stringify(this.$store.state.Account.user))
           this.$router.push("/")
+        })
       }).catch(err => {
         console.log('login Failed ', err)
         let errorCode = err.code;
