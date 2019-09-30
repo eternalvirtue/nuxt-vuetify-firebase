@@ -17,17 +17,16 @@ export default async function ({ store, route, redirect }) {
     firebaseAPI.logout().then(store.commit('Account/clearUser')).then(redirect('/login'))
   } else {
     if (store.state.Account.user === null ) {
+      // awaitがあるのでブラウジング上一瞬ページは止まって見えるが、
+      // これがないとログインしていない状態で該当ページの処理が一瞬だけ見えてしまう。
       await firebaseAPI.auth().then(user => {
         console.log('state auth user ', logUtil.stringify(user))
         if (!user) {
           redirect('/login');
         } else {
-          store.dispatch('Account/setUser', {
-            uid: user.uid,
-            email: user.email,
-            username: user.displayName,
-            userImage: user.photoURL,
-          })
+          // storeに情報がないのにFirebase上はログインしている状態。
+          // Firebase上おログアウトし、ログインページに遷移
+          firebaseAPI.logout().then(redirect('/login'))
         }
       })
     }
